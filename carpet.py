@@ -1,24 +1,30 @@
-"""Draw a Sierpinski carpet
-Size: the dimensions of the image. Images must be square
-Depth: the maximum levels of Sierpinski-splitting. -1 by default, for going until we reach individual pixels.
-Colour: The colour of the added squares. 0x000000 by default
-Background colour: 0xFFFFFF by default"""
+"""Draw a Sierpinski carpet recursively"""
 
-import math
+from colour import Colour
 
-class SierpinskiCarpet:
+# A generic fractal class which each particular class extends, allowing us to set the options
+# for the fractal in main() with the same code regardless of which child class it is
+class Fractal:
+	def __init__(self):
+		self.size = 1024
+		self.depth = -1
+		self.colour = Colour(0, 0, 0)
+		self.bkgd_colour = Colour(255, 255, 255)
+		self.pixels = [[self.bkgd_colour for y in range(self.size)] for x in range(self.size)]
 
-	def __init__(self, size=600, depth=-1, colour=0x000000, bkgd_colour=0xFFFFFF):
-		self.pixels = [[bkgd_colour for y in range(size)] for x in range(size)]
-		self.size = size
-		self.depth = depth
-		self.colour = colour
-		self.bkgd_colour = bkgd_colour
+	# Rebild the pixels array to take into account any size changes from outside
+	def config(self):
+		self.pixels = [[self.bkgd_colour for y in range(self.size)] for x in range(self.size)]
+
+class SierpinskiCarpet(Fractal):
+
+	def __init__(self):
+		super().__init__()
 
 	# Perform the ninth-ing operation upon a specified square
 	def cut(self, x0, y0, length, depth):
 		if length >= 3:
-			unit = math.floor(length/3)
+			unit = round(length/3)
 
 			# Colour the central square of the nine, i.e. switch the colour of its pixels
 			for px in range(unit+1, unit*2+1):
