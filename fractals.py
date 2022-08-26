@@ -12,6 +12,7 @@ from colour import Colour, parse_col
 from carpet import SierpinskiCarpet
 from triangle import SierpinskiTriangle
 from mandlebrot import MandlebrotSet
+from dragon import DragonCurve
 
 #The pixels array is such that pixels[x][0] is the bottom of the image, to make things graph-like
 FILEHEADERSIZE = 14
@@ -21,18 +22,20 @@ INFOHEADERSIZE = 40
 fractal_names = {
 	"sc" : SierpinskiCarpet,
 	"st" : SierpinskiTriangle,
-	"m" : MandlebrotSet
+	"m" : MandlebrotSet,
+	"h" : DragonCurve
 }
 
 # And for the command-line options and epxlanations
 cmd_options = {
-	"-size" : "[height in pixels]\t\t(for best results use a multiple of 3)",
+	"-size" : "[height in pixels]\t(for best results use a multiple of 3)",
 	"-depth" : "[number of levels]\t(defaults to maximum)",
 	"-colour" : "[hex code]",
 	"-bkgd_colour" : "[hex code]",
 	"-out" : "[output file]\t\t(defaults to output.bmp)",
-	"-range" : "[(x0, y0) (x1, y1)]",
-	"-shading" : "[none/gradient/advanced]"
+	"-unit" : "[length in pixels]\t\t(dragon curve only)",
+	"-range" : "[x0,y0 x1,y1]\t\t(Mandlebrot only)",
+	"-shading" : "[none/gradient/advanced]\t(Mandlebrot only)"
 }
 
 def write_image(pixels, dest):
@@ -79,17 +82,18 @@ def write_image(pixels, dest):
 def main():
 	# The usage text
 	if len(sys.argv) < 2:
-		print("fractals.py: a script for generating various fractals as .BMP images.\n\n" + 
-			"Usage: python3 fractals.py [FRACTAL] [OPTIONS]\n\n" +  
+		print("fractals.py: a script for generating various fractals as .BMP images.\n" + 
+			"Usage: python3 fractals.py [FRACTAL] [PARAMATERS]\n\n" +  
 			"Fractals:\n" + 
 			"\tsc\tSierpinski carpet\n" + 
 			"\tst\tSierpinski triangle\n" + 
-			"\tm\tMandlebrot set\n\n" + 
-			"Options:\n")
+			"\tm\tMandlebrot set\n" + 
+			"\th\tHeighway Dragon curve\n\n" + 
+			"Parameters:\n")
 		for key in cmd_options:
 			print("\t" + key + " " + cmd_options[key])
 			if key == "-out":
-				print("\nMandlebrot only:\n")
+				print("\nFractal-specific paramaters:\n")
 
 		print("")
 
@@ -114,6 +118,9 @@ def main():
 				# Switch (arg)
 				if arg=="-size":
 					if sys.argv[i].isnumeric() and int(sys.argv[i])>0:
+						if sys.argv[i]=="m":
+							print("WARNING: -size does not apply to Heighway's Dragon curve.")
+							continue
 						frac.size = int(sys.argv[i])
 						frac.config()
 					else:
@@ -163,6 +170,15 @@ def main():
 					else:
 						print("Shading option should be \"none\", \"gradient\", or \"advanced\".")
 						sys.exit(1)
+				elif arg=="-unit":
+					if sys.argv[1] == "h":
+						if sys.argv[i].isnumeric():
+							frac.unit = int(sys.argv[i])
+						else:
+							print("Units should be specified as positive integers.")
+							sys.exit(1)
+					else:
+						print("WARNING: -unit only applies to the Dragon curve.")
 			else:
 				print("Please provide a value for option " + arg + ".")
 				sys.exit(1)

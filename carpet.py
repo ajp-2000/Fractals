@@ -1,20 +1,7 @@
 """Draw a Sierpinski carpet recursively"""
 
 from colour import Colour
-
-# A generic fractal class which each particular class extends, allowing us to set the options
-# for the fractal in main() with the same code regardless of which child class it is
-class Fractal:
-	def __init__(self):
-		self.size = 1024
-		self.depth = -1
-		self.colour = Colour(0, 0, 0)
-		self.bkgd_colour = Colour(255, 255, 255)
-		self.pixels = [[self.bkgd_colour for y in range(self.size)] for x in range(self.size)]
-
-	# Rebild the pixels array to take into account any size changes from outside
-	def config(self):
-		self.pixels = [[self.bkgd_colour for y in range(self.size)] for x in range(self.size)]
+from shapes import Fractal
 
 class SierpinskiCarpet(Fractal):
 

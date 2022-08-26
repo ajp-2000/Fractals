@@ -6,7 +6,7 @@ import re
 import sys
 
 from colour import Colour, parse_col, unparse_col
-from carpet import Fractal
+from shapes import Fractal
 
 class MandlebrotSet(Fractal):
 	x0 = -2
@@ -71,19 +71,46 @@ class MandlebrotSet(Fractal):
 			self.y0 = y1
 			self.y1 = y0
 
-	# Return a Colour object for advanced shading based on 0 <= factor <= 1
-	def map_col(self, factor):
-		red = 20
-		green = 20
+	# The logistic function for L = 1, k = 1, x0 = 0
+	def sigmoid(self, x):
+		return 1 / (1 + math.exp(-x))
 
-		if factor == 0:
-			blue = 255 / (0.5/0.1)
-		elif factor < 0.3:
-			blue = 255 * (0.4-factor)
+	# Interpolate a value between a and b as on a +ve/-ve cube root graph
+	def interp(self, a, b, sign, factor):
+		xval = (((factor-a)/(b-a)) - 0.5) * 6
+		if sign == 1:
+			return self.sigmoid(xval) * 255
 		else:
-			red = 255 * (factor)
-			green = 255 * 0.4 * (factor)
-			blue = 26
+			return self.sigmoid(0-xval) * 255
+
+	# Return a Colour object for advanced shading based on 0 <= factor <= 1
+	# Algorithm adopted and simplified from Ultra Fractal 6
+	def map_col(self, factor):
+		factor *= 255
+		
+		# Red: slopes like an x^3 between 60 and 150, then down from 205 to 225
+		red = 0
+		if (factor>60) and (factor<=150):
+			red = self.interp(60, 150, 1, factor)
+		elif (factor>150) and (factor<=205):
+			red = 255
+		elif (factor>205) and (factor<=225):
+			red = self.interp(205, 225, -1, factor)
+
+		# Green: up from 40 to 150, then immediately down to 240
+		green = 0
+		if (factor>40) and (factor<=150):
+			green = self.interp(40, 150, 1, factor)
+		elif (factor>150) and (factor<=240):
+			green = self.interp(150, 240, -1, factor)
+
+		# Blue: up from 0 to 150, then down to 205
+		blue = 0
+		if factor <= 150:
+			#blue = factor * (255/150)
+			blue = self.interp(0, 150, 1, factor)
+		elif factor <= 205:
+			blue = self.interp(150, 205, -1, factor)
 
 		return Colour(round(red), round(green), round(blue))
 
@@ -149,5 +176,16 @@ class MandlebrotSet(Fractal):
 						col = self.map_col(count/self.depth)
 
 					self.pixels[px][py] = col
+
+		"""Test the colour mapping
+		for x in range(0, 255):
+			for y in range(0, self.size):
+				c = self.map_col(x/255)
+				self.pixels[x][y] = c
+
+			# Draw graphs
+			self.pixels[x][100+c.red] = Colour(0, 0, 0)
+			self.pixels[x][400+c.green] = Colour(0, 0, 0)
+			self.pixels[x][700+c.blue] = Colour(0, 0, 0)"""
 
 		return self.pixels
