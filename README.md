@@ -21,7 +21,7 @@ Options:
    
    -colour [0xRRGGBB]
    
-   -out [FILE TO SAVE AS]  (defaults to output.bmp. Must be a .bmp.)
+   -out [filename]  (defaults to output.bmp. Must be a .bmp.)
    
    -unit [length of unit in pixels]  (for the dragon curve only: specified the length of the base line to build the dragon up from. Defaults to 8.)
    
