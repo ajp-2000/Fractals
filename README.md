@@ -27,8 +27,7 @@ Options:
    
    -shading [none/gradient/advanced]  (Mandlebrot only. No shading (the default) simply draws the set in [colour] against [bkgd_colour]. Gradient shading draws the set in [colour], and pixels which are not in the set are shaded along a gradient between [colour] and [bkgd_colour] according to how many iterations the complex number they represent took to go to infinity. Advanced shading is my approximation of the most famous colour scheme for the Mandlebrot set, which makes it dark blue, orange, and white. The algorithm in mandlebrot.py was written using the colour map used by Ultra Fractal 6 as a reference.)
 
-
-
+# Copyright
 Copyright <2022> <Arun James Prabhakar>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
