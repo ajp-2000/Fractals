@@ -1,6 +1,8 @@
 # Fractals
 fractals.py: A command-line Python 3 script for rendering various fractals to .bmp files. In v1.0.0, the fractals implemented are: the Sierpinski carpet and triangle, the Mandlebrot set, and Heighway's Dragon curve. All images are saved as 32-bit BGRA .bmp files, with default size 1024x1024px, but any size can be specified at the command line.
 
+This program was also submitted as my final project for Harvard's course CS50x.
+
 # Command line usage:
 python3 ./fractals.py [FRACTAL] [PARAMETERS (all optional)]
 
