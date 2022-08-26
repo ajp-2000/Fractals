@@ -55,11 +55,11 @@ class DragonCurve(Fractal):
 		# Find the relevant lines as indices of self.lines
 		pivlines = [0, 0]
 		for i in range(0, len(self.lines)):
-			if self.lines[i][-2:]==[xpivot, ypivot]:
+			if self.lines[i][-2:] == [xpivot, ypivot]:
 				# The line ending at the pivot
 				pivlines[0] = i
 
-			if self.lines[i][:2]==[xpivot, ypivot]:
+			if self.lines[i][:2] == [xpivot, ypivot]:
 				# The line starting at the pivot
 				pivlines[1] = i
 
