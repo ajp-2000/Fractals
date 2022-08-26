@@ -1,5 +1,5 @@
 # Fractals
-fractals.py A command-line Python 3 script for rendering various fractals to .bmp files. In v1.0.0, the fractals implemented are: the Sierpinski carpet and triangle, the Mandlebrot set, and Heighway's Dragon curve. All images are saved as 32-bit BGRA .bmp files, with default size 1024x1024px, but any size can be specified at the command line.
+fractals.py: A command-line Python 3 script for rendering various fractals to .bmp files. In v1.0.0, the fractals implemented are: the Sierpinski carpet and triangle, the Mandlebrot set, and Heighway's Dragon curve. All images are saved as 32-bit BGRA .bmp files, with default size 1024x1024px, but any size can be specified at the command line.
 
 # Command line usage:
 python3 ./fractals.py [FRACTAL] [PARAMETERS (all optional)]
@@ -26,6 +26,7 @@ Options:
    -range [bottom-left corner of range, top-right corner] (for the Mandlebrot set only: the user can draw a particular range of the set, to simulate zooming in. The range must be given in the format x0,y0 x1,y1, e.g. "-range -0.5,0 0,0.5". Computation times increase as -range is narrowed while -size stays the same, because the nature of the set itself is such that the finer the resolution of our image, the greater the number of iterations are required to reach a given level of precision.)
    
    -shading [none/gradient/advanced]  (Mandlebrot only. No shading (the default) simply draws the set in [colour] against [bkgd_colour]. Gradient shading draws the set in [colour], and pixels which are not in the set are shaded along a gradient between [colour] and [bkgd_colour] according to how many iterations the complex number they represent took to go to infinity. Advanced shading is my approximation of the most famous colour scheme for the Mandlebrot set, which makes it dark blue, orange, and white. The algorithm in mandlebrot.py was written using the colour map used by Ultra Fractal 6 as a reference.)
+
 
 
 Copyright <2022> <Arun James Prabhakar>
