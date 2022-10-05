@@ -3,6 +3,8 @@ fractals.py: A command-line Python 3 script for rendering various fractals to .b
 
 This program was also submitted as my final project for Harvard's course CS50x.
 
+#### Video: https://www.youtube.com/watch?v=YfEFtpZUQZo&ab_channel=ArunPrabhakar
+
 # Command line usage:
 python3 ./fractals.py [FRACTAL] [PARAMETERS (all optional)]
 
